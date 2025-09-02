@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">RickAndMorty</string>
+    <string name="home_title">Welcome to the world\nof Rick and Morty!</string>
 </resources>

@@ -8,11 +8,11 @@ plugins {
 }
 
 android {
-  namespace = "com.example.converter"
+  namespace = "com.example.rickandmorty"
   compileSdk = 35
 
   defaultConfig {
-    applicationId = "com.example.converter"
+    applicationId = "com.example.rickandmorty"
     minSdk = 24
     targetSdk = 35
     versionCode = 1

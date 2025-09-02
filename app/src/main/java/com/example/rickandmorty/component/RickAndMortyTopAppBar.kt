@@ -14,7 +14,7 @@ import androidx.compose.ui.text.font.FontWeight
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun ConverterTopAppBar(
+fun RickAndMortyTopAppBar(
   text: String,
   modifier: Modifier = Modifier,
   navigateBack: Boolean = false,
