@@ -4,6 +4,7 @@ import androidx.compose.runtime.Composable
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
+import com.example.rickandmorty.screen.home.HomeScreen
 
 @Composable
 fun Navigation(navController: NavHostController) {
@@ -12,7 +13,7 @@ fun Navigation(navController: NavHostController) {
     startDestination = Screen.Home
   ) {
     composable<Screen.Home> {
-      // TODO
+      HomeScreen()
     }
   }
 }
