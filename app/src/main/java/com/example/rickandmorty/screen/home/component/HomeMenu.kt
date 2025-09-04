@@ -3,6 +3,7 @@ package com.example.rickandmorty.screen.home.component
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.shape.CornerSize
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Button
@@ -64,11 +65,11 @@ private fun MenuOption(
   onClick: () -> Unit,
 ) {
   Button(
-    modifier = modifier,
+    modifier = modifier.fillMaxWidth(),
     shape = when (type) {
       OptionType.First -> RoundedCornerShape(
-        topStart = CornerSize(50),
-        topEnd = CornerSize(50),
+        topStart = CornerSize(12.dp),
+        topEnd = CornerSize(12.dp),
         bottomStart = CornerSize(0.dp),
         bottomEnd = CornerSize(0.dp),
       )
@@ -83,12 +84,14 @@ private fun MenuOption(
       OptionType.Last -> RoundedCornerShape(
         topStart = CornerSize(0.dp),
         topEnd = CornerSize(0.dp),
-        bottomStart = CornerSize(50),
-        bottomEnd = CornerSize(50),
+        bottomStart = CornerSize(12.dp),
+        bottomEnd = CornerSize(12.dp),
       )
     },
     onClick = onClick,
   ) {
-    Text(text = name)
+    Text(
+      text = name
+    )
   }
 }
