@@ -19,15 +19,11 @@ import com.example.rickandmorty.screen.home.component.HomeTitle
 fun HomeScreen() {
   val viewModel: HomeViewModel = hiltViewModel()
 
-  HomeUi(
-    uiState = viewModel.uiState(),
-    onEvent = viewModel::onEvent,
-  )
+  HomeUi(onEvent = viewModel::onEvent)
 }
 
 @Composable
 fun HomeUi(
-  uiState: HomeState,
   onEvent: (HomeEvent) -> Unit
 ) {
   Scaffold(
@@ -41,7 +37,17 @@ fun HomeUi(
       ) {
         HomeTitle(modifier = Modifier.fillMaxWidth())
         Spacer(Modifier.height(32.dp))
-        HomeMenu()
+        HomeMenu(
+          onCharactersClick = {
+            onEvent(HomeEvent.CharactersClick)
+          },
+          onLocationsClick = {
+            onEvent(HomeEvent.LocationsClick)
+          },
+          onEpisodesClick = {
+            onEvent(HomeEvent.EpisodesClick)
+          }
+        )
       }
     }
   )

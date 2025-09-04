@@ -1,5 +1,7 @@
 package com.example.rickandmorty.screen.home
 
 sealed interface HomeEvent {
-  // TODO
+  data object CharactersClick : HomeEvent
+  data object LocationsClick : HomeEvent
+  data object EpisodesClick : HomeEvent
 }

@@ -10,6 +10,22 @@ class HomeViewModel() : ComposeViewModel<HomeState, HomeEvent>() {
   }
 
   override fun onEvent(event: HomeEvent) {
+    when (event) {
+      HomeEvent.CharactersClick -> handleCharactersClick()
+      HomeEvent.LocationsClick -> handleLocationsClick()
+      HomeEvent.EpisodesClick -> handleEpisodesClick()
+    }
+  }
+
+  private fun handleCharactersClick() {
+    // TODO
+  }
+
+  private fun handleLocationsClick() {
+    // TODO
+  }
+
+  private fun handleEpisodesClick() {
     // TODO
   }
 }

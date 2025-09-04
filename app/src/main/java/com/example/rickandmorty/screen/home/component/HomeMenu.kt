@@ -18,7 +18,12 @@ import androidx.compose.ui.unit.dp
 import com.example.rickandmorty.R
 
 @Composable
-fun HomeMenu(modifier: Modifier = Modifier) {
+fun HomeMenu(
+  modifier: Modifier = Modifier,
+  onCharactersClick: () -> Unit,
+  onLocationsClick: () -> Unit,
+  onEpisodesClick: () -> Unit,
+) {
   Column(
     modifier = modifier
       .background(
@@ -34,19 +39,19 @@ fun HomeMenu(modifier: Modifier = Modifier) {
     MenuOption(
       name = stringResource(R.string.home_characters),
       type = OptionType.First,
-      onClick = {}
+      onClick = onCharactersClick,
     )
     HorizontalDivider(thickness = 2.dp)
     MenuOption(
       name = stringResource(R.string.home_locations),
       type = OptionType.Middle,
-      onClick = {}
+      onClick = onLocationsClick,
     )
     HorizontalDivider(thickness = 2.dp)
     MenuOption(
       name = stringResource(R.string.home_episodes),
       type = OptionType.Last,
-      onClick = {}
+      onClick = onEpisodesClick,
     )
   }
 }
