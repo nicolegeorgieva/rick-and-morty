@@ -2,10 +2,10 @@ package com.example.rickandmorty.screen.home.component
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.shape.CornerSize
+import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material3.Button
 import androidx.compose.material3.DividerDefaults
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.MaterialTheme
@@ -13,7 +13,6 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import com.example.rickandmorty.R
 
@@ -33,36 +32,63 @@ fun HomeMenu(modifier: Modifier = Modifier) {
   ) {
     MenuOption(
       name = stringResource(R.string.home_characters),
+      type = OptionType.First,
       onClick = {}
     )
     HorizontalDivider(thickness = 2.dp)
     MenuOption(
       name = stringResource(R.string.home_locations),
+      type = OptionType.Middle,
       onClick = {}
     )
     HorizontalDivider(thickness = 2.dp)
     MenuOption(
       name = stringResource(R.string.home_episodes),
+      type = OptionType.Last,
       onClick = {}
     )
   }
 }
 
+private enum class OptionType {
+  First,
+  Middle,
+  Last,
+}
+
 @Composable
 private fun MenuOption(
   name: String,
+  type: OptionType,
+  modifier: Modifier = Modifier,
   onClick: () -> Unit,
 ) {
-  Text(
-    modifier = Modifier
-      .fillMaxWidth()
-      .clickable(
-        onClick = onClick
+  Button(
+    modifier = modifier,
+    shape = when (type) {
+      OptionType.First -> RoundedCornerShape(
+        topStart = CornerSize(50),
+        topEnd = CornerSize(50),
+        bottomStart = CornerSize(0.dp),
+        bottomEnd = CornerSize(0.dp),
       )
-      .padding(top = 12.dp, bottom = 12.dp),
-    text = name,
-    textAlign = TextAlign.Center,
-    color = MaterialTheme.colorScheme.onPrimary,
-    style = MaterialTheme.typography.bodyLarge,
-  )
+
+      OptionType.Middle -> RoundedCornerShape(
+        topStart = CornerSize(0.dp),
+        topEnd = CornerSize(0.dp),
+        bottomStart = CornerSize(0.dp),
+        bottomEnd = CornerSize(0.dp),
+      )
+
+      OptionType.Last -> RoundedCornerShape(
+        topStart = CornerSize(0.dp),
+        topEnd = CornerSize(0.dp),
+        bottomStart = CornerSize(50),
+        bottomEnd = CornerSize(50),
+      )
+    },
+    onClick = onClick,
+  ) {
+    Text(text = name)
+  }
 }
