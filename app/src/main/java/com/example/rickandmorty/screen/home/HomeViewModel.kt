@@ -1,9 +1,18 @@
 package com.example.rickandmorty.screen.home
 
 import androidx.compose.runtime.Composable
+import androidx.lifecycle.viewModelScope
 import com.example.rickandmorty.ComposeViewModel
+import com.example.rickandmorty.navigation.Navigator
+import com.example.rickandmorty.navigation.Screen
+import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.launch
+import javax.inject.Inject
 
-class HomeViewModel() : ComposeViewModel<HomeState, HomeEvent>() {
+@HiltViewModel
+class HomeViewModel @Inject constructor(
+  private val navigator: Navigator,
+) : ComposeViewModel<HomeState, HomeEvent>() {
   @Composable
   override fun uiState(): HomeState {
     return HomeState()
@@ -18,7 +27,9 @@ class HomeViewModel() : ComposeViewModel<HomeState, HomeEvent>() {
   }
 
   private fun handleCharactersClick() {
-    // TODO
+    viewModelScope.launch {
+      navigator.navigateTo(Screen.Characters)
+    }
   }
 
   private fun handleLocationsClick() {
