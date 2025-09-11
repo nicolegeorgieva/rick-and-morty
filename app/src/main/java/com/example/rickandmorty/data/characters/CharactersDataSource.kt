@@ -1,6 +1,8 @@
 package com.example.rickandmorty.data.characters
 
+import arrow.core.Either
 import io.ktor.client.HttpClient
+import io.ktor.client.call.body
 import io.ktor.client.request.get
 import io.ktor.client.request.parameter
 import javax.inject.Inject
@@ -8,23 +10,19 @@ import javax.inject.Inject
 class CharactersDataSource @Inject constructor(
   private val httpClient: HttpClient
 ) {
-  suspend fun fetchCharacters(page: Int?) {
-    try {
+  suspend fun fetchCharacters(page: Int?): Either<Throwable, CharactersDto> {
+    return Either.catch {
       httpClient.get(urlString = "character") {
         if (page != null) {
           parameter("page", page)
         }
-      }
-    } catch (e: Exception) {
-
+      }.body<CharactersDto>()
     }
   }
 
-  suspend fun fetchCharacter(id: String) {
-    try {
-      httpClient.get(urlString = "character/$id")
-    } catch (e: Exception) {
-
+  suspend fun fetchCharacter(id: String): Either<Throwable, CharacterDto> {
+    return Either.catch {
+      httpClient.get(urlString = "character/$id").body<CharacterDto>()
     }
   }
 }
