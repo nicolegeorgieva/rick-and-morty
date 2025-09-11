@@ -8,6 +8,7 @@ import androidx.compose.runtime.setValue
 import androidx.lifecycle.viewModelScope
 import arrow.core.Either
 import com.example.rickandmorty.ComposeViewModel
+import com.example.rickandmorty.data.characters.CharactersRepository
 import com.example.rickandmorty.navigation.Navigator
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.collections.immutable.toImmutableList
@@ -18,6 +19,7 @@ import javax.inject.Inject
 @HiltViewModel
 class CharactersViewModel @Inject constructor(
   private val navigator: Navigator,
+  private val charactersRepository: CharactersRepository,
 ) : ComposeViewModel<CharactersState, CharactersEvent>() {
   private var charactersRes by mutableStateOf<Either<String, List<Character>>?>(null)
 
@@ -48,7 +50,6 @@ class CharactersViewModel @Inject constructor(
 
   private fun fetchCharacters() {
     viewModelScope.launch {
-      delay(2000)
       charactersRes =
         Either.Right(
           listOf(
