@@ -11,7 +11,10 @@ import io.ktor.http.ContentType
 import io.ktor.http.contentType
 import io.ktor.serialization.kotlinx.json.json
 import kotlinx.serialization.json.Json
+import kotlinx.serialization.modules.SerializersModule
+import kotlinx.serialization.modules.contextual
 import javax.inject.Singleton
+import kotlin.time.ExperimentalTime
 
 @Module
 @InstallIn(SingletonComponent::class)
@@ -35,11 +38,15 @@ object AppModule {
     }
   }
 
+  @OptIn(ExperimentalTime::class)
   @Provides
   fun provideJson(): Json {
     return Json {
       ignoreUnknownKeys = true
       isLenient = true
+      serializersModule = SerializersModule {
+        contextual(InstantSerializer)
+      }
     }
   }
 }
