@@ -1,46 +1,38 @@
 package com.example.rickandmorty.data.characters
 
-import kotlinx.serialization.Contextual
-import kotlinx.serialization.Serializable
 import kotlin.time.ExperimentalTime
 import kotlin.time.Instant
 
-@Serializable
-data class CharactersDto(
-  val info: CharactersInfoDto,
-  val results: List<CharacterDto>,
+data class Characters(
+  val info: CharactersInfo,
+  val results: List<Character>,
 )
 
-@Serializable
-class CharactersInfoDto(
+data class CharactersInfo(
   val pages: Int,
 )
 
-@Serializable
 @OptIn(ExperimentalTime::class)
-data class CharacterDto(
+data class Character(
   val id: String,
   val name: String,
   val status: String,
   val species: String,
   val type: String,
   val gender: String,
-  val origin: OriginDto,
-  val location: LocationDto,
+  val origin: Origin,
+  val location: Location,
   val image: String,
   val episode: List<String>,
-  @Contextual
   val created: Instant,
 )
 
-@Serializable
-data class OriginDto(
+data class Origin(
   val name: String,
   val url: String,
 )
 
-@Serializable
-data class LocationDto(
+data class Location(
   val name: String,
   val url: String,
 )
