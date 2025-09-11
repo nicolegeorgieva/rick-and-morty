@@ -8,11 +8,11 @@ import androidx.compose.runtime.setValue
 import androidx.lifecycle.viewModelScope
 import arrow.core.Either
 import com.example.rickandmorty.ComposeViewModel
+import com.example.rickandmorty.data.ErrorResponse
 import com.example.rickandmorty.data.characters.CharactersRepository
 import com.example.rickandmorty.navigation.Navigator
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.collections.immutable.toImmutableList
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -21,7 +21,8 @@ class CharactersViewModel @Inject constructor(
   private val navigator: Navigator,
   private val charactersRepository: CharactersRepository,
 ) : ComposeViewModel<CharactersState, CharactersEvent>() {
-  private var charactersRes by mutableStateOf<Either<String, List<Character>>?>(null)
+  private var charactersRes by mutableStateOf<Either<ErrorResponse, CharactersUi>?>(null)
+  private var charactersPage by mutableStateOf<Int?>(null)
 
   @Composable
   override fun uiState(): CharactersState {
@@ -31,8 +32,8 @@ class CharactersViewModel @Inject constructor(
 
     return when (val characters = charactersRes) {
       null -> CharactersState.Loading
-      is Either.Left<String> -> CharactersState.Error(message = characters.value)
-      is Either.Right<List<Character>> -> CharactersState.Success(characters.value.toImmutableList())
+      is Either.Left<ErrorResponse> -> CharactersState.Error(message = characters.value)
+      is Either.Right<CharactersUi> -> CharactersState.Success(characters.value)
     }
   }
 
@@ -50,25 +51,33 @@ class CharactersViewModel @Inject constructor(
 
   private fun fetchCharacters() {
     viewModelScope.launch {
-      charactersRes =
-        Either.Right(
-          listOf(
-            Character(
-              id = "1",
-              name = "Amy"
-            ),
-            Character(
-              id = "2",
-              name = "Lilly"
-            ),
-            Character(
-              id = "3",
-              name = "Victoria"
-            )
+      charactersRes = charactersRepository.fetchCharacters(page = charactersPage)
+        .map { characters ->
+          CharactersUi(
+            info = CharactersInfoUi(pages = characters.info.pages),
+            results = characters.results.map { character ->
+              CharacterUi(
+                id = character.id,
+                name = character.name,
+                status = character.status,
+                species = character.species,
+                type = character.type,
+                gender = character.gender,
+                origin = OriginUi(
+                  name = character.origin.name,
+                  url = character.origin.url,
+                ),
+                location = LocationUi(
+                  name = character.location.name,
+                  url = character.location.url,
+                ),
+                image = character.image,
+                episode = character.episode.toImmutableList(),
+                created = ""
+              )
+            },
           )
-        )
-      delay(2000)
-      charactersRes = Either.Left("No internet connection")
+        }
     }
   }
 }
