@@ -7,10 +7,11 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.viewModelScope
 import arrow.core.Either
-import com.example.rickandmorty.ComposeViewModel
+import com.example.rickandmorty.common.ComposeViewModel
 import com.example.rickandmorty.data.ErrorResponse
 import com.example.rickandmorty.data.characters.CharactersRepository
 import com.example.rickandmorty.navigation.Navigator
+import com.example.rickandmorty.utils.ErrorMessageMapper
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.collections.immutable.toImmutableList
 import kotlinx.coroutines.launch
@@ -20,6 +21,7 @@ import javax.inject.Inject
 class CharactersViewModel @Inject constructor(
   private val navigator: Navigator,
   private val charactersRepository: CharactersRepository,
+  private val errorMessageMapper: ErrorMessageMapper,
 ) : ComposeViewModel<CharactersState, CharactersEvent>() {
   private var charactersRes by mutableStateOf<Either<ErrorResponse, CharactersUi>?>(null)
   private var charactersPage by mutableStateOf<Int?>(null)
@@ -32,7 +34,10 @@ class CharactersViewModel @Inject constructor(
 
     return when (val characters = charactersRes) {
       null -> CharactersState.Loading
-      is Either.Left<ErrorResponse> -> CharactersState.Error(message = characters.value)
+      is Either.Left<ErrorResponse> -> CharactersState.Error(
+        message = errorMessageMapper.transformErrorToMessage(characters.value)
+      )
+
       is Either.Right<CharactersUi> -> CharactersState.Success(characters.value)
     }
   }

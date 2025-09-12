@@ -51,7 +51,7 @@ fun CharactersUi(
       when (uiState) {
         is CharactersState.Error -> item(key = "error") { Error(message = uiState.message) }
         CharactersState.Loading -> item(key = "loading") { Loading() }
-        is CharactersState.Success -> items(uiState.characters) { character ->
+        is CharactersState.Success -> items(uiState.characters.results) { character ->
           Text(character.name)
           Spacer(Modifier.height(12.dp))
         }

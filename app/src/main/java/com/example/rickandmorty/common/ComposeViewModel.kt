@@ -1,4 +1,4 @@
-package com.example.rickandmorty
+package com.example.rickandmorty.common
 
 import androidx.compose.runtime.Composable
 import androidx.lifecycle.ViewModel

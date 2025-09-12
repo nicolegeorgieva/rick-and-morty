@@ -2,7 +2,7 @@ package com.example.rickandmorty.screen.home
 
 import androidx.compose.runtime.Composable
 import androidx.lifecycle.viewModelScope
-import com.example.rickandmorty.ComposeViewModel
+import com.example.rickandmorty.common.ComposeViewModel
 import com.example.rickandmorty.navigation.Navigator
 import com.example.rickandmorty.navigation.Screen
 import dagger.hilt.android.lifecycle.HiltViewModel
