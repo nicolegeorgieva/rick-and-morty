@@ -53,6 +53,7 @@ dependencies {
   implementation(libs.androidx.material3)
   implementation(libs.kotlinx.collections.immutable)
   implementation(libs.arrow.core)
+  implementation(libs.coil)
   testImplementation(libs.junit)
   androidTestImplementation(libs.androidx.junit)
   androidTestImplementation(libs.androidx.espresso.core)
