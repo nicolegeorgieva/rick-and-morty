@@ -19,8 +19,10 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import coil3.compose.AsyncImage
+import com.example.rickandmorty.R
 import com.example.rickandmorty.screen.characters.CharacterStatusUi
 import com.example.rickandmorty.screen.characters.CharacterUi
 
@@ -46,7 +48,7 @@ fun CharacterCard(
         )
         Spacer(Modifier.height(24.dp))
         CharacterInfo(
-          title = "Last known location",
+          title = stringResource(R.string.characters_last_known_location),
           value = character.location.name,
           onValueClick = {
             onLocationClick(character.location.url)
@@ -75,10 +77,21 @@ private fun CharacterStatus(
   species: String,
   modifier: Modifier = Modifier,
 ) {
-  val statusText = when (status) {
-    CharacterStatusUi.Alive -> "Alive"
-    CharacterStatusUi.Dead -> "Dead"
-  }
+  val statusText = stringResource(
+    when (status) {
+      CharacterStatusUi.Alive -> R.string.characters_status_alive
+      CharacterStatusUi.Dead -> R.string.characters_status_dead
+    }
+  )
+  val characterSpecies = stringResource(
+    when (species) {
+      "Human" -> R.string.characters_type_human
+      "Animal" -> R.string.characters_type_animal
+      "Alien" -> R.string.characters_type_alien
+      else -> R.string.characters_type_other
+    }
+  )
+
   Row(
     modifier = modifier,
     verticalAlignment = Alignment.CenterVertically,
@@ -87,7 +100,7 @@ private fun CharacterStatus(
     Spacer(Modifier.width(4.dp))
     Text(
       modifier = Modifier,
-      text = "$statusText - $species",
+      text = "$statusText - $characterSpecies",
       style = MaterialTheme.typography.bodyMedium,
     )
   }

@@ -6,4 +6,11 @@
     <string name="home_episodes">Episodes</string>
     <string name="error_message_no_internet">Please check your internet connection and try again.</string>
     <string name="error_message_other">Oops, something went wrong. Please try again.</string>
+    <string name="characters_last_known_location">Last known location</string>
+    <string name="characters_status_alive">Alive</string>
+    <string name="characters_status_dead">Dead</string>
+    <string name="characters_type_human">Human</string>
+    <string name="characters_type_alien">Alien</string>
+    <string name="characters_type_animal">Animal</string>
+    <string name="characters_type_other">Other</string>
 </resources>
