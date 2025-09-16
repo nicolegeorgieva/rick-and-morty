@@ -6,6 +6,7 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.ColumnScope
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
@@ -19,6 +20,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import coil3.compose.AsyncImage
@@ -33,15 +35,23 @@ fun CharacterCard(
   onLocationClick: (String) -> Unit,
 ) {
   Card(modifier = modifier) {
-    Row(modifier = Modifier.padding(vertical = 12.dp)) {
+    Row(verticalAlignment = Alignment.CenterVertically) {
       AsyncImage(
-        modifier = Modifier.weight(1f),
+        modifier = Modifier
+          .weight(1.5f)
+          .aspectRatio(0.8f),
+        contentScale = ContentScale.FillHeight,
         model = character.image,
         contentDescription = null,
       )
-      Column(modifier = Modifier.weight(2f)) {
+      Spacer(Modifier.width(16.dp))
+      Column(
+        modifier = Modifier
+          .weight(2f)
+          .padding(vertical = 12.dp)
+      ) {
         CharacterName(text = character.name)
-        Spacer(Modifier.height(8.dp))
+        Spacer(Modifier.height(4.dp))
         CharacterStatus(
           status = character.status,
           species = character.species,
@@ -137,7 +147,7 @@ private fun ColumnScope.CharacterInfo(
       color = MaterialTheme.colorScheme.secondary,
     ),
   )
-  Spacer(Modifier.height(12.dp))
+  Spacer(Modifier.height(4.dp))
   Text(
     modifier = Modifier
       .fillMaxWidth()

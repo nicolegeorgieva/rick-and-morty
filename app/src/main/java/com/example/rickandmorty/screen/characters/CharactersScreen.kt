@@ -46,7 +46,9 @@ fun CharactersUi(
     }
   ) { padding ->
     LazyColumn(
-      modifier = Modifier.padding(padding)
+      modifier = Modifier
+        .padding(padding)
+        .padding(horizontal = 12.dp)
     ) {
       when (uiState) {
         is CharactersState.Error -> item(key = "error") { Error(message = uiState.message) }
