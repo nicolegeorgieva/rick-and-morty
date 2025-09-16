@@ -45,6 +45,7 @@ class CharactersViewModel @Inject constructor(
   override fun onEvent(event: CharactersEvent) {
     when (event) {
       CharactersEvent.BackClick -> handleBackClick()
+      is CharactersEvent.LocationClick -> handleLocationClick(event)
     }
   }
 
@@ -52,6 +53,10 @@ class CharactersViewModel @Inject constructor(
     viewModelScope.launch {
       navigator.back()
     }
+  }
+
+  private fun handleLocationClick(event: CharactersEvent.LocationClick) {
+    // TODO
   }
 
   private fun fetchCharacters() {
@@ -64,7 +69,10 @@ class CharactersViewModel @Inject constructor(
               CharacterUi(
                 id = character.id,
                 name = character.name,
-                status = character.status,
+                status = when (character.status) {
+                  "Alive" -> CharacterStatusUi.Alive
+                  else -> CharacterStatusUi.Dead
+                },
                 species = character.species,
                 type = character.type,
                 gender = character.gender,

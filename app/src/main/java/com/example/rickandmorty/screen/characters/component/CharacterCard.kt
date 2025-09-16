@@ -24,6 +24,7 @@ import com.example.rickandmorty.screen.characters.CharacterUi
 fun CharacterCard(
   character: CharacterUi,
   modifier: Modifier = Modifier,
+  onLocationClick: (String) -> Unit,
 ) {
   Card(modifier = modifier) {
     Row {
@@ -43,6 +44,9 @@ fun CharacterCard(
         CharacterInfo(
           title = "Last known location",
           value = character.location.name,
+          onValueClick = {
+            onLocationClick(character.location.url)
+          }
         )
       }
     }
