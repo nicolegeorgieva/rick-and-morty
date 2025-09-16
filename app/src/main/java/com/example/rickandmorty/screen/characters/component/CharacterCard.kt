@@ -6,13 +6,17 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.ColumnScope
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material3.Card
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
@@ -27,7 +31,7 @@ fun CharacterCard(
   onLocationClick: (String) -> Unit,
 ) {
   Card(modifier = modifier) {
-    Row {
+    Row(modifier = Modifier.padding(vertical = 12.dp)) {
       AsyncImage(
         modifier = Modifier.weight(1f),
         model = character.image,
@@ -75,8 +79,12 @@ private fun CharacterStatus(
     CharacterStatusUi.Alive -> "Alive"
     CharacterStatusUi.Dead -> "Dead"
   }
-  Row(modifier = modifier) {
+  Row(
+    modifier = modifier,
+    verticalAlignment = Alignment.CenterVertically,
+  ) {
     CharacterStatusDot(status = status)
+    Spacer(Modifier.width(4.dp))
     Text(
       modifier = Modifier,
       text = "$statusText - $species",
@@ -118,17 +126,19 @@ private fun ColumnScope.CharacterInfo(
   )
   Spacer(Modifier.height(12.dp))
   Text(
-    modifier = Modifier.then(
-      if (valueUrl != null && onValueClick != null) {
-        Modifier.clickable(
-          onClick = {
-            onValueClick(valueUrl)
-          }
-        )
-      } else {
-        Modifier
-      }
-    ),
+    modifier = Modifier
+      .fillMaxWidth()
+      .then(
+        if (valueUrl != null && onValueClick != null) {
+          Modifier.clickable(
+            onClick = {
+              onValueClick(valueUrl)
+            }
+          )
+        } else {
+          Modifier
+        }
+      ),
     text = value,
     style = MaterialTheme.typography.bodyLarge,
   )
