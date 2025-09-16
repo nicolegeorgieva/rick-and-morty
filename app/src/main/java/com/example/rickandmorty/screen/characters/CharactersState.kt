@@ -23,7 +23,7 @@ data class CharactersInfoUi(
 data class CharacterUi(
   val id: String,
   val name: String,
-  val status: String,
+  val status: CharacterStatusUi,
   val species: String,
   val type: String,
   val gender: String,
@@ -33,6 +33,11 @@ data class CharacterUi(
   val episode: ImmutableList<String>,
   val created: String,
 )
+
+enum class CharacterStatusUi {
+  Alive,
+  Dead,
+}
 
 @Immutable
 data class OriginUi(
