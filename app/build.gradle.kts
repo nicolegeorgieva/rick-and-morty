@@ -54,6 +54,7 @@ dependencies {
   implementation(libs.kotlinx.collections.immutable)
   implementation(libs.arrow.core)
   implementation(libs.coil)
+  implementation(libs.coil.http)
   testImplementation(libs.junit)
   androidTestImplementation(libs.androidx.junit)
   androidTestImplementation(libs.androidx.espresso.core)
