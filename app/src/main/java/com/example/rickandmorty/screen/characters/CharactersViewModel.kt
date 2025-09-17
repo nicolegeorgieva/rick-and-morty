@@ -74,9 +74,19 @@ class CharactersViewModel @Inject constructor(
                   "Dead" -> CharacterStatusUi.Dead
                   else -> CharacterStatusUi.Unknown
                 },
-                species = character.species,
+                species = when (character.species) {
+                  "Human" -> CharacterSpeciesUi.Human
+                  "Animal" -> CharacterSpeciesUi.Animal
+                  "Alien" -> CharacterSpeciesUi.Alien
+                  else -> CharacterSpeciesUi.Other
+                },
                 type = character.type,
-                gender = character.gender,
+                gender = when (character.gender) {
+                  "Female" -> CharacterGenderUi.Female
+                  "Male" -> CharacterGenderUi.Male
+                  "Genderless" -> CharacterGenderUi.Genderless
+                  else -> CharacterGenderUi.Unknown
+                },
                 origin = OriginUi(
                   name = character.origin.name,
                   url = character.origin.url,

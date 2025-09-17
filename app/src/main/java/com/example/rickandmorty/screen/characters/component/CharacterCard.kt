@@ -26,6 +26,8 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import coil3.compose.AsyncImage
 import com.example.rickandmorty.R
+import com.example.rickandmorty.screen.characters.CharacterGenderUi
+import com.example.rickandmorty.screen.characters.CharacterSpeciesUi
 import com.example.rickandmorty.screen.characters.CharacterStatusUi
 import com.example.rickandmorty.screen.characters.CharacterUi
 
@@ -80,12 +82,24 @@ private fun RowScope.CharacterInfo(
       species = character.species,
     )
     Spacer(Modifier.height(24.dp))
-    CharacterDetails(
+    CharacterDetail(
       title = stringResource(R.string.characters_last_known_location),
       value = character.location.name,
       onValueClick = {
         onLocationClick(character.location.url)
       }
+    )
+    Spacer(Modifier.height(24.dp))
+    CharacterDetail(
+      title = stringResource(R.string.characters_gender),
+      value = stringResource(
+        when (character.gender) {
+          CharacterGenderUi.Female -> R.string.characters_gender_female
+          CharacterGenderUi.Male -> R.string.characters_gender_male
+          CharacterGenderUi.Genderless -> R.string.characters_gender_genderless
+          CharacterGenderUi.Unknown -> R.string.characters_gender_unknown
+        }
+      ),
     )
   }
 }
@@ -105,22 +119,22 @@ private fun CharacterName(
 @Composable
 private fun CharacterStatus(
   status: CharacterStatusUi,
-  species: String,
+  species: CharacterSpeciesUi,
   modifier: Modifier = Modifier,
 ) {
   val statusText = stringResource(
     when (status) {
       CharacterStatusUi.Alive -> R.string.characters_status_alive
       CharacterStatusUi.Dead -> R.string.characters_status_dead
-      else -> R.string.characters_status_unknown
+      CharacterStatusUi.Unknown -> R.string.characters_status_unknown
     }
   )
   val characterSpecies = stringResource(
     when (species) {
-      "Human" -> R.string.characters_type_human
-      "Animal" -> R.string.characters_type_animal
-      "Alien" -> R.string.characters_type_alien
-      else -> R.string.characters_type_other
+      CharacterSpeciesUi.Human -> R.string.characters_species_human
+      CharacterSpeciesUi.Animal -> R.string.characters_species_animal
+      CharacterSpeciesUi.Alien -> R.string.characters_species_alien
+      CharacterSpeciesUi.Other -> R.string.characters_species_other
     }
   )
 
@@ -158,7 +172,7 @@ private fun CharacterStatusDot(
 }
 
 @Composable
-private fun ColumnScope.CharacterDetails(
+private fun ColumnScope.CharacterDetail(
   title: String,
   value: String,
   valueUrl: String? = null,

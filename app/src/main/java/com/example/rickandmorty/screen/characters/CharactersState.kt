@@ -24,9 +24,9 @@ data class CharacterUi(
   val id: String,
   val name: String,
   val status: CharacterStatusUi,
-  val species: String,
+  val species: CharacterSpeciesUi,
   val type: String,
-  val gender: String,
+  val gender: CharacterGenderUi,
   val origin: OriginUi,
   val location: LocationUi,
   val image: String,
@@ -34,9 +34,26 @@ data class CharacterUi(
   val created: String,
 )
 
+@Immutable
 enum class CharacterStatusUi {
   Alive,
   Dead,
+  Unknown,
+}
+
+@Immutable
+enum class CharacterSpeciesUi {
+  Human,
+  Animal,
+  Alien,
+  Other,
+}
+
+@Immutable
+enum class CharacterGenderUi {
+  Female,
+  Male,
+  Genderless,
   Unknown,
 }
 
