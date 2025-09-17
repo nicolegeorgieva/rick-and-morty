@@ -39,26 +39,10 @@ fun CharacterCard(
     Row(verticalAlignment = Alignment.CenterVertically) {
       CharacterImage(url = character.image)
       Spacer(Modifier.width(16.dp))
-      Column(
-        modifier = Modifier
-          .weight(2f)
-          .padding(vertical = 12.dp)
-      ) {
-        CharacterName(text = character.name)
-        Spacer(Modifier.height(4.dp))
-        CharacterStatus(
-          status = character.status,
-          species = character.species,
-        )
-        Spacer(Modifier.height(24.dp))
-        CharacterInfo(
-          title = stringResource(R.string.characters_last_known_location),
-          value = character.location.name,
-          onValueClick = {
-            onLocationClick(character.location.url)
-          }
-        )
-      }
+      CharacterInfo(
+        character = character,
+        onLocationClick = onLocationClick
+      )
     }
   }
 }
@@ -76,6 +60,34 @@ private fun RowScope.CharacterImage(
     model = url,
     contentDescription = null,
   )
+}
+
+@Composable
+private fun RowScope.CharacterInfo(
+  character: CharacterUi,
+  modifier: Modifier = Modifier,
+  onLocationClick: (String) -> Unit,
+) {
+  Column(
+    modifier = modifier
+      .weight(2f)
+      .padding(vertical = 12.dp)
+  ) {
+    CharacterName(text = character.name)
+    Spacer(Modifier.height(4.dp))
+    CharacterStatus(
+      status = character.status,
+      species = character.species,
+    )
+    Spacer(Modifier.height(24.dp))
+    CharacterDetails(
+      title = stringResource(R.string.characters_last_known_location),
+      value = character.location.name,
+      onValueClick = {
+        onLocationClick(character.location.url)
+      }
+    )
+  }
 }
 
 @Composable
@@ -144,7 +156,7 @@ private fun CharacterStatusDot(
 }
 
 @Composable
-private fun ColumnScope.CharacterInfo(
+private fun ColumnScope.CharacterDetails(
   title: String,
   value: String,
   valueUrl: String? = null,
