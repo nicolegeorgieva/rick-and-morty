@@ -5,6 +5,7 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.ColumnScope
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.RowScope
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -36,14 +37,7 @@ fun CharacterCard(
 ) {
   Card(modifier = modifier) {
     Row(verticalAlignment = Alignment.CenterVertically) {
-      AsyncImage(
-        modifier = Modifier
-          .weight(1.5f)
-          .aspectRatio(0.8f),
-        contentScale = ContentScale.FillHeight,
-        model = character.image,
-        contentDescription = null,
-      )
+      CharacterImage(url = character.image)
       Spacer(Modifier.width(16.dp))
       Column(
         modifier = Modifier
@@ -67,6 +61,21 @@ fun CharacterCard(
       }
     }
   }
+}
+
+@Composable
+private fun RowScope.CharacterImage(
+  url: String,
+  modifier: Modifier = Modifier,
+) {
+  AsyncImage(
+    modifier = modifier
+      .weight(1.5f)
+      .aspectRatio(0.8f),
+    contentScale = ContentScale.FillHeight,
+    model = url,
+    contentDescription = null,
+  )
 }
 
 @Composable
