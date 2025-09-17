@@ -37,6 +37,7 @@ data class CharacterUi(
 enum class CharacterStatusUi {
   Alive,
   Dead,
+  Unknown,
 }
 
 @Immutable

@@ -112,6 +112,7 @@ private fun CharacterStatus(
     when (status) {
       CharacterStatusUi.Alive -> R.string.characters_status_alive
       CharacterStatusUi.Dead -> R.string.characters_status_dead
+      else -> R.string.characters_status_unknown
     }
   )
   val characterSpecies = stringResource(
@@ -149,6 +150,7 @@ private fun CharacterStatusDot(
         color = when (status) {
           CharacterStatusUi.Alive -> Color.Green
           CharacterStatusUi.Dead -> Color.Red
+          else -> MaterialTheme.colorScheme.secondary
         },
         shape = CircleShape,
       )

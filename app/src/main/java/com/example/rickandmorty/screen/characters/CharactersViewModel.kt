@@ -71,7 +71,8 @@ class CharactersViewModel @Inject constructor(
                 name = character.name,
                 status = when (character.status) {
                   "Alive" -> CharacterStatusUi.Alive
-                  else -> CharacterStatusUi.Dead
+                  "Dead" -> CharacterStatusUi.Dead
+                  else -> CharacterStatusUi.Unknown
                 },
                 species = character.species,
                 type = character.type,

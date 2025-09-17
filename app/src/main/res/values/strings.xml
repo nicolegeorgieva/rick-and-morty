@@ -9,6 +9,7 @@
     <string name="characters_last_known_location">Last known location</string>
     <string name="characters_status_alive">Alive</string>
     <string name="characters_status_dead">Dead</string>
+    <string name="characters_status_unknown">Unknown</string>
     <string name="characters_type_human">Human</string>
     <string name="characters_type_alien">Alien</string>
     <string name="characters_type_animal">Animal</string>
