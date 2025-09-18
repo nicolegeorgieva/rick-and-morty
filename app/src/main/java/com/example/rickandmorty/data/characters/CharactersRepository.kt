@@ -15,7 +15,10 @@ class CharactersRepository @Inject constructor(
     return charactersDataSource.fetchCharacters(page)
       .map { charactersDto ->
         Characters(
-          info = CharactersInfo(charactersDto.info.pages),
+          info = CharactersInfo(
+            pages = charactersDto.info.pages,
+            next = charactersDto.info.next
+          ),
           results = charactersDto.results.map { characterDto ->
             Character(
               id = characterDto.id,

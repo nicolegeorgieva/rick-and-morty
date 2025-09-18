@@ -17,6 +17,7 @@ data class CharactersUi(
 
 data class CharactersInfoUi(
   val pages: Int,
+  val next: String?,
 )
 
 @Immutable

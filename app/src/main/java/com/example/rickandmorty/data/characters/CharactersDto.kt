@@ -14,6 +14,7 @@ data class CharactersDto(
 @Serializable
 class CharactersInfoDto(
   val pages: Int,
+  val next: String?,
 )
 
 @Serializable

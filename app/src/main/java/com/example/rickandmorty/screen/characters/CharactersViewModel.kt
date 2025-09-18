@@ -3,6 +3,7 @@ package com.example.rickandmorty.screen.characters
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.viewModelScope
@@ -24,7 +25,7 @@ class CharactersViewModel @Inject constructor(
   private val errorMessageMapper: ErrorMessageMapper,
 ) : ComposeViewModel<CharactersState, CharactersEvent>() {
   private var charactersRes by mutableStateOf<Either<ErrorResponse, CharactersUi>?>(null)
-  private var charactersPage by mutableStateOf<Int?>(null)
+  private var charactersPage by mutableIntStateOf(1)
 
   @Composable
   override fun uiState(): CharactersState {
@@ -46,6 +47,7 @@ class CharactersViewModel @Inject constructor(
     when (event) {
       CharactersEvent.BackClick -> handleBackClick()
       is CharactersEvent.LocationClick -> handleLocationClick(event)
+      CharactersEvent.LoadNewPage -> handleLoadNewPage()
     }
   }
 
@@ -64,7 +66,10 @@ class CharactersViewModel @Inject constructor(
       charactersRes = charactersRepository.fetchCharacters(page = charactersPage)
         .map { characters ->
           CharactersUi(
-            info = CharactersInfoUi(pages = characters.info.pages),
+            info = CharactersInfoUi(
+              pages = characters.info.pages,
+              next = characters.info.next,
+            ),
             results = characters.results.map { character ->
               CharacterUi(
                 id = character.id,
@@ -103,5 +108,10 @@ class CharactersViewModel @Inject constructor(
           )
         }
     }
+  }
+
+  private fun handleLoadNewPage() {
+    charactersPage += 1
+    fetchCharacters()
   }
 }

@@ -10,6 +10,7 @@ data class Characters(
 
 data class CharactersInfo(
   val pages: Int,
+  val next: String?
 )
 
 @OptIn(ExperimentalTime::class)
