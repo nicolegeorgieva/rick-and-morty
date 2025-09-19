@@ -25,6 +25,7 @@ class CharactersViewModel @Inject constructor(
   private val errorMessageMapper: ErrorMessageMapper,
 ) : ComposeViewModel<CharactersState, CharactersEvent>() {
   private var charactersRes by mutableStateOf<Either<ErrorResponse, CharactersUi>?>(null)
+  private var loadingNewCharacters by mutableStateOf(false)
   private var charactersPage by mutableIntStateOf(1)
 
   @Composable
@@ -39,7 +40,10 @@ class CharactersViewModel @Inject constructor(
         message = errorMessageMapper.transformErrorToMessage(characters.value)
       )
 
-      is Either.Right<CharactersUi> -> CharactersState.Success(characters.value)
+      is Either.Right<CharactersUi> -> CharactersState.Success(
+        characters = characters.value,
+        loadingNewCharacters = loadingNewCharacters,
+      )
     }
   }
 
@@ -112,6 +116,11 @@ class CharactersViewModel @Inject constructor(
 
   private fun handleLoadNewPage() {
     charactersPage += 1
-    fetchCharacters()
+    val charsRes = charactersRes
+    if (charsRes is Either.Right<CharactersUi> && charactersPage <= charsRes.value.info.pages) {
+      loadingNewCharacters = true
+      fetchCharacters()
+      loadingNewCharacters = false
+    }
   }
 }
