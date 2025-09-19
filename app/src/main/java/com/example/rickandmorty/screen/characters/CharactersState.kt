@@ -16,7 +16,7 @@ sealed interface CharactersState {
 
 data class CharactersUi(
   val info: CharactersInfoUi,
-  val results: List<CharacterUi>,
+  val results: ImmutableList<CharacterUi>,
 )
 
 data class CharactersInfoUi(

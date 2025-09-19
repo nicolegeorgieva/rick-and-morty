@@ -77,10 +77,10 @@ class CharactersViewModel @Inject constructor(
               next = characters.info.next,
             ),
             results = if (prevCharsRes is Either.Right) {
-              prevCharsRes.value.results + characters.results.mapCharactersResults()
+              (prevCharsRes.value.results + characters.results.mapCharactersResults())
             } else {
               characters.results.mapCharactersResults()
-            }
+            }.toImmutableList()
           )
         }
     }
