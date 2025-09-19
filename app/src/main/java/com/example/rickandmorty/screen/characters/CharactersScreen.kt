@@ -1,5 +1,6 @@
 package com.example.rickandmorty.screen.characters
 
+import android.annotation.SuppressLint
 import androidx.annotation.VisibleForTesting
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Spacer
@@ -13,7 +14,9 @@ import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.snapshotFlow
+import androidx.compose.runtime.derivedStateOf
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
@@ -35,6 +38,7 @@ fun CharactersScreen() {
   )
 }
 
+@SuppressLint("FrequentlyChangingValue")
 @VisibleForTesting
 @Composable
 fun CharactersUi(
@@ -55,16 +59,17 @@ fun CharactersUi(
     val listState = rememberLazyListState()
 
     if (uiState is CharactersState.Success) {
-      LaunchedEffect(listState) {
-        snapshotFlow { listState.layoutInfo }
-          .collect { layoutInfo ->
-            val lastVisible = layoutInfo.visibleItemsInfo.lastOrNull()?.index ?: 0
-            val totalItems = layoutInfo.totalItemsCount
+      val shouldLoadMore by remember(listState.firstVisibleItemIndex) {
+        derivedStateOf {
+          listState.firstVisibleItemIndex >= uiState.characters.results.size - 10 &&
+              !uiState.loadingNewCharacters
+        }
+      }
 
-            if (lastVisible >= totalItems - 5 && !uiState.loadingNewCharacters) {
-              onEvent(CharactersEvent.LoadNewPage)
-            }
-          }
+      LaunchedEffect(shouldLoadMore) {
+        if (shouldLoadMore) {
+          onEvent(CharactersEvent.LoadNewPage)
+        }
       }
     }
 

@@ -67,6 +67,7 @@ class CharactersViewModel @Inject constructor(
 
   private fun fetchCharacters() {
     viewModelScope.launch {
+      val chars = charactersRes
       charactersRes = charactersRepository.fetchCharacters(page = charactersPage)
         .map { characters ->
           CharactersUi(
@@ -74,41 +75,79 @@ class CharactersViewModel @Inject constructor(
               pages = characters.info.pages,
               next = characters.info.next,
             ),
-            results = characters.results.map { character ->
-              CharacterUi(
-                id = character.id,
-                name = character.name,
-                status = when (character.status) {
-                  "Alive" -> CharacterStatusUi.Alive
-                  "Dead" -> CharacterStatusUi.Dead
-                  else -> CharacterStatusUi.Unknown
-                },
-                species = when (character.species) {
-                  "Human" -> CharacterSpeciesUi.Human
-                  "Animal" -> CharacterSpeciesUi.Animal
-                  "Alien" -> CharacterSpeciesUi.Alien
-                  else -> CharacterSpeciesUi.Other
-                },
-                type = character.type,
-                gender = when (character.gender) {
-                  "Female" -> CharacterGenderUi.Female
-                  "Male" -> CharacterGenderUi.Male
-                  "Genderless" -> CharacterGenderUi.Genderless
-                  else -> CharacterGenderUi.Unknown
-                },
-                origin = OriginUi(
-                  name = character.origin.name,
-                  url = character.origin.url,
-                ),
-                location = LocationUi(
-                  name = character.location.name,
-                  url = character.location.url,
-                ),
-                image = character.image,
-                episode = character.episode.toImmutableList(),
-                created = ""
-              )
-            },
+            results = if (chars is Either.Right) {
+              chars.value.results + characters.results.map { character ->
+                CharacterUi(
+                  id = character.id,
+                  name = character.name,
+                  status = when (character.status) {
+                    "Alive" -> CharacterStatusUi.Alive
+                    "Dead" -> CharacterStatusUi.Dead
+                    else -> CharacterStatusUi.Unknown
+                  },
+                  species = when (character.species) {
+                    "Human" -> CharacterSpeciesUi.Human
+                    "Animal" -> CharacterSpeciesUi.Animal
+                    "Alien" -> CharacterSpeciesUi.Alien
+                    else -> CharacterSpeciesUi.Other
+                  },
+                  type = character.type,
+                  gender = when (character.gender) {
+                    "Female" -> CharacterGenderUi.Female
+                    "Male" -> CharacterGenderUi.Male
+                    "Genderless" -> CharacterGenderUi.Genderless
+                    else -> CharacterGenderUi.Unknown
+                  },
+                  origin = OriginUi(
+                    name = character.origin.name,
+                    url = character.origin.url,
+                  ),
+                  location = LocationUi(
+                    name = character.location.name,
+                    url = character.location.url,
+                  ),
+                  image = character.image,
+                  episode = character.episode.toImmutableList(),
+                  created = ""
+                )
+              }
+            } else {
+              characters.results.map { character ->
+                CharacterUi(
+                  id = character.id,
+                  name = character.name,
+                  status = when (character.status) {
+                    "Alive" -> CharacterStatusUi.Alive
+                    "Dead" -> CharacterStatusUi.Dead
+                    else -> CharacterStatusUi.Unknown
+                  },
+                  species = when (character.species) {
+                    "Human" -> CharacterSpeciesUi.Human
+                    "Animal" -> CharacterSpeciesUi.Animal
+                    "Alien" -> CharacterSpeciesUi.Alien
+                    else -> CharacterSpeciesUi.Other
+                  },
+                  type = character.type,
+                  gender = when (character.gender) {
+                    "Female" -> CharacterGenderUi.Female
+                    "Male" -> CharacterGenderUi.Male
+                    "Genderless" -> CharacterGenderUi.Genderless
+                    else -> CharacterGenderUi.Unknown
+                  },
+                  origin = OriginUi(
+                    name = character.origin.name,
+                    url = character.origin.url,
+                  ),
+                  location = LocationUi(
+                    name = character.location.name,
+                    url = character.location.url,
+                  ),
+                  image = character.image,
+                  episode = character.episode.toImmutableList(),
+                  created = ""
+                )
+              }
+            }
           )
         }
     }
