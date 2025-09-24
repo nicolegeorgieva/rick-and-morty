@@ -13,6 +13,7 @@ class CharactersRepository @Inject constructor(
   @OptIn(ExperimentalTime::class)
   suspend fun fetchCharacters(page: Int?): Either<ErrorResponse, Characters> {
     return charactersDataSource.fetchCharacters(page)
+      .mapLeft(errorMapper::mapError)
       .map { charactersDto ->
         Characters(
           info = CharactersInfo(
@@ -42,12 +43,12 @@ class CharactersRepository @Inject constructor(
           }
         )
       }
-      .mapLeft(errorMapper::mapError)
   }
 
   @OptIn(ExperimentalTime::class)
   suspend fun fetchCharacter(id: Int): Either<ErrorResponse, Character> {
     return charactersDataSource.fetchCharacter(id)
+      .mapLeft(errorMapper::mapError)
       .map { characterDto ->
         Character(
           id = characterDto.id,
@@ -69,6 +70,5 @@ class CharactersRepository @Inject constructor(
           created = characterDto.created,
         )
       }
-      .mapLeft(errorMapper::mapError)
   }
 }

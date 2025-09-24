@@ -21,6 +21,8 @@ class LocationsDataSource @Inject constructor(
   }
 
   suspend fun fetchLocation(id: Int): Either<Throwable, LocationDto> {
-    TODO()
+    return Either.catch {
+      httpClient.get(urlString = "location/$id").body<LocationDto>()
+    }
   }
 }
