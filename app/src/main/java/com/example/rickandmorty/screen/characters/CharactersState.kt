@@ -26,7 +26,7 @@ data class CharactersInfoUi(
 
 @Immutable
 data class CharacterUi(
-  val id: String,
+  val id: Int,
   val name: String,
   val status: CharacterStatusUi,
   val species: CharacterSpeciesUi,
