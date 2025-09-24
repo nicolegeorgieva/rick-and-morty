@@ -20,7 +20,7 @@ class CharactersDataSource @Inject constructor(
     }
   }
 
-  suspend fun fetchCharacter(id: String): Either<Throwable, CharacterDto> {
+  suspend fun fetchCharacter(id: Int): Either<Throwable, CharacterDto> {
     return Either.catch {
       httpClient.get(urlString = "character/$id").body<CharacterDto>()
     }

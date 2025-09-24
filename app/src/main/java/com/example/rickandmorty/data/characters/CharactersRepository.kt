@@ -46,7 +46,7 @@ class CharactersRepository @Inject constructor(
   }
 
   @OptIn(ExperimentalTime::class)
-  suspend fun fetchCharacter(id: String): Either<ErrorResponse, Character> {
+  suspend fun fetchCharacter(id: Int): Either<ErrorResponse, Character> {
     return charactersDataSource.fetchCharacter(id)
       .map { characterDto ->
         Character(
