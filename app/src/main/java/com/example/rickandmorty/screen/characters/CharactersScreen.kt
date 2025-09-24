@@ -59,7 +59,11 @@ fun CharactersUi(
     val listState = rememberLazyListState()
 
     if (uiState is CharactersState.Success) {
-      val shouldLoadMore by remember(listState.firstVisibleItemIndex) {
+      val shouldLoadMore by remember(
+        listState.firstVisibleItemIndex,
+        uiState.characters.results.size,
+        uiState.loadingNewCharacters,
+      ) {
         derivedStateOf {
           listState.firstVisibleItemIndex >= uiState.characters.results.size - 10 &&
               !uiState.loadingNewCharacters
