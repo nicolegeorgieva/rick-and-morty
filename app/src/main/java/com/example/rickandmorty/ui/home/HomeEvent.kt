@@ -1,4 +1,4 @@
-package com.example.rickandmorty.screen.home
+package com.example.rickandmorty.ui.home
 
 sealed interface HomeEvent {
   data object CharactersClick : HomeEvent

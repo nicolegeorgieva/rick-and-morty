@@ -1,4 +1,4 @@
-package com.example.rickandmorty.screen.characters
+package com.example.rickandmorty.ui.characters
 
 sealed interface CharactersEvent {
   data object BackClick : CharactersEvent

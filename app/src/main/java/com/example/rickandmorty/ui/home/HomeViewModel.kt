@@ -1,4 +1,4 @@
-package com.example.rickandmorty.screen.home
+package com.example.rickandmorty.ui.home
 
 import androidx.compose.runtime.Composable
 import androidx.lifecycle.viewModelScope

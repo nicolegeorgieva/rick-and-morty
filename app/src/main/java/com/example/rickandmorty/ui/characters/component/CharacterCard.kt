@@ -1,4 +1,4 @@
-package com.example.rickandmorty.screen.characters.component
+package com.example.rickandmorty.ui.characters.component
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -26,10 +26,10 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import coil3.compose.AsyncImage
 import com.example.rickandmorty.R
-import com.example.rickandmorty.screen.characters.CharacterGenderUi
-import com.example.rickandmorty.screen.characters.CharacterSpeciesUi
-import com.example.rickandmorty.screen.characters.CharacterStatusUi
-import com.example.rickandmorty.screen.characters.CharacterUi
+import com.example.rickandmorty.ui.characters.CharacterGenderUi
+import com.example.rickandmorty.ui.characters.CharacterSpeciesUi
+import com.example.rickandmorty.ui.characters.CharacterStatusUi
+import com.example.rickandmorty.ui.characters.CharacterUi
 
 @Composable
 fun CharacterCard(

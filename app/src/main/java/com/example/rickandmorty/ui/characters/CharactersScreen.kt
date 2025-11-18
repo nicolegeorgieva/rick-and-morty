@@ -1,7 +1,6 @@
-package com.example.rickandmorty.screen.characters
+package com.example.rickandmorty.ui.characters
 
 import android.annotation.SuppressLint
-import androidx.annotation.VisibleForTesting
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -24,9 +23,9 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.rickandmorty.R
 import com.example.rickandmorty.component.RickAndMortyTopAppBar
-import com.example.rickandmorty.screen.characters.component.CharacterCard
-import com.example.rickandmorty.screen.characters.component.Error
-import com.example.rickandmorty.screen.characters.component.Loading
+import com.example.rickandmorty.ui.characters.component.CharacterCard
+import com.example.rickandmorty.ui.characters.component.Error
+import com.example.rickandmorty.ui.characters.component.Loading
 
 @Composable
 fun CharactersScreen() {
@@ -38,8 +37,8 @@ fun CharactersScreen() {
   )
 }
 
+
 @SuppressLint("FrequentlyChangingValue")
-@VisibleForTesting
 @Composable
 fun CharactersUi(
   uiState: CharactersState,

@@ -1,4 +1,4 @@
-package com.example.rickandmorty.screen.home.component
+package com.example.rickandmorty.ui.home.component
 
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text

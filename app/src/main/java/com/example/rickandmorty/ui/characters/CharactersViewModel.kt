@@ -1,4 +1,4 @@
-package com.example.rickandmorty.screen.characters
+package com.example.rickandmorty.ui.characters
 
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -10,9 +10,9 @@ import androidx.lifecycle.viewModelScope
 import arrow.core.Either
 import com.example.rickandmorty.common.ComposeViewModel
 import com.example.rickandmorty.data.ErrorResponse
-import com.example.rickandmorty.data.characters.Character
 import com.example.rickandmorty.data.characters.CharactersRepository
 import com.example.rickandmorty.navigation.Navigator
+import com.example.rickandmorty.ui.mapper.CharacterUiMapper
 import com.example.rickandmorty.utils.ErrorMessageMapper
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.collections.immutable.toImmutableList
@@ -23,10 +23,10 @@ import javax.inject.Inject
 class CharactersViewModel @Inject constructor(
   private val navigator: Navigator,
   private val charactersRepository: CharactersRepository,
+  private val characterUiMapper: CharacterUiMapper,
   private val errorMessageMapper: ErrorMessageMapper,
 ) : ComposeViewModel<CharactersState, CharactersEvent>() {
   private var charactersRes by mutableStateOf<Either<ErrorResponse, CharactersUi>?>(null)
-  private var characterRes by mutableStateOf<Either<ErrorResponse, CharacterUi>?>(null)
   private var loadingNewCharacters by mutableStateOf(false)
   private var charactersPage by mutableIntStateOf(1)
 
@@ -66,10 +66,7 @@ class CharactersViewModel @Inject constructor(
 
   private fun handleCharacterClick(event: CharactersEvent.CharacterClick) {
     viewModelScope.launch {
-      characterRes = charactersRepository.fetchCharacter(event.id)
-        .map { character ->
-          character.toCharacterUi()
-        }
+      // TODO - navigate to Character screen
     }
   }
 
@@ -89,52 +86,16 @@ class CharactersViewModel @Inject constructor(
             ),
             results = if (prevCharsRes is Either.Right) {
               (prevCharsRes.value.results + characters.results.map { character ->
-                character.toCharacterUi()
+                characterUiMapper.map(character)
               })
             } else {
               characters.results.map { character ->
-                character.toCharacterUi()
+                characterUiMapper.map(character)
               }
             }.toImmutableList()
           )
         }
     }
-  }
-
-  private fun Character.toCharacterUi(): CharacterUi {
-    return CharacterUi(
-      id = this.id,
-      name = this.name,
-      status = when (this.status) {
-        "Alive" -> CharacterStatusUi.Alive
-        "Dead" -> CharacterStatusUi.Dead
-        else -> CharacterStatusUi.Unknown
-      },
-      species = when (this.species) {
-        "Human" -> CharacterSpeciesUi.Human
-        "Animal" -> CharacterSpeciesUi.Animal
-        "Alien" -> CharacterSpeciesUi.Alien
-        else -> CharacterSpeciesUi.Other
-      },
-      type = this.type,
-      gender = when (this.gender) {
-        "Female" -> CharacterGenderUi.Female
-        "Male" -> CharacterGenderUi.Male
-        "Genderless" -> CharacterGenderUi.Genderless
-        else -> CharacterGenderUi.Unknown
-      },
-      origin = OriginUi(
-        name = this.origin.name,
-        url = this.origin.url,
-      ),
-      location = LocationUi(
-        name = this.location.name,
-        url = this.location.url,
-      ),
-      image = this.image,
-      episode = this.episode.toImmutableList(),
-      created = ""
-    )
   }
 
   private fun handleLoadNewPage() {

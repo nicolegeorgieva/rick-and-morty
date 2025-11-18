@@ -1,4 +1,4 @@
-package com.example.rickandmorty.screen.characters
+package com.example.rickandmorty.ui.characters
 
 import androidx.compose.runtime.Immutable
 import kotlinx.collections.immutable.ImmutableList

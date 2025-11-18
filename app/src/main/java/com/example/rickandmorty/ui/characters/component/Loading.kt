@@ -1,4 +1,4 @@
-package com.example.rickandmorty.screen.characters.component
+package com.example.rickandmorty.ui.characters.component
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column

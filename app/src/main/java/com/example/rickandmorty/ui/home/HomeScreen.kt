@@ -1,4 +1,4 @@
-package com.example.rickandmorty.screen.home
+package com.example.rickandmorty.ui.home
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -12,8 +12,8 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
-import com.example.rickandmorty.screen.home.component.HomeMenu
-import com.example.rickandmorty.screen.home.component.HomeTitle
+import com.example.rickandmorty.ui.home.component.HomeMenu
+import com.example.rickandmorty.ui.home.component.HomeTitle
 
 @Composable
 fun HomeScreen() {

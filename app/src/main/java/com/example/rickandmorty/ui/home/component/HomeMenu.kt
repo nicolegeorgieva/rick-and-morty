@@ -1,4 +1,4 @@
-package com.example.rickandmorty.screen.home.component
+package com.example.rickandmorty.ui.home.component
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
