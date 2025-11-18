@@ -12,6 +12,7 @@ import com.example.rickandmorty.common.ComposeViewModel
 import com.example.rickandmorty.data.ErrorResponse
 import com.example.rickandmorty.data.characters.CharactersRepository
 import com.example.rickandmorty.navigation.Navigator
+import com.example.rickandmorty.navigation.Screen
 import com.example.rickandmorty.ui.mapper.CharacterUiMapper
 import com.example.rickandmorty.utils.ErrorMessageMapper
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -66,7 +67,7 @@ class CharactersViewModel @Inject constructor(
 
   private fun handleCharacterClick(event: CharactersEvent.CharacterClick) {
     viewModelScope.launch {
-      // TODO - navigate to Character screen
+      navigator.navigateTo(Screen.Character(event.id))
     }
   }
 

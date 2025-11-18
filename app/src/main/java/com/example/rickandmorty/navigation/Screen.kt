@@ -8,4 +8,7 @@ sealed interface Screen {
 
   @Serializable
   data object Characters : Screen
+
+  @Serializable
+  data class Character(val id: Int) : Screen
 }
