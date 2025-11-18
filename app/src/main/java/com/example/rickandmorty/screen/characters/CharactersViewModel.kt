@@ -51,6 +51,7 @@ class CharactersViewModel @Inject constructor(
   override fun onEvent(event: CharactersEvent) {
     when (event) {
       CharactersEvent.BackClick -> handleBackClick()
+      is CharactersEvent.CharacterClick -> handleCharacterClick(event)
       is CharactersEvent.LocationClick -> handleLocationClick(event)
       CharactersEvent.LoadNewPage -> handleLoadNewPage()
     }
@@ -60,6 +61,10 @@ class CharactersViewModel @Inject constructor(
     viewModelScope.launch {
       navigator.back()
     }
+  }
+
+  private fun handleCharacterClick(event: CharactersEvent.CharacterClick) {
+    // TODO
   }
 
   private fun handleLocationClick(event: CharactersEvent.LocationClick) {

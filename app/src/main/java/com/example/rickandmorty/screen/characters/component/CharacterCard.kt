@@ -35,9 +35,15 @@ import com.example.rickandmorty.screen.characters.CharacterUi
 fun CharacterCard(
   character: CharacterUi,
   modifier: Modifier = Modifier,
+  onCharacterClick: (Int) -> Unit,
   onLocationClick: (String) -> Unit,
 ) {
-  Card(modifier = modifier) {
+  Card(
+    modifier = modifier,
+    onClick = {
+      onCharacterClick(character.id)
+    }
+  ) {
     Row(verticalAlignment = Alignment.CenterVertically) {
       CharacterImage(url = character.image)
       Spacer(Modifier.width(16.dp))

@@ -95,8 +95,11 @@ fun CharactersUi(
           ) { index, character ->
             CharacterCard(
               character = character,
-              onLocationClick = {
-                onEvent(CharactersEvent.LocationClick(it))
+              onCharacterClick = { id ->
+                onEvent(CharactersEvent.CharacterClick(id))
+              },
+              onLocationClick = { locationUrl ->
+                onEvent(CharactersEvent.LocationClick(locationUrl))
               }
             )
             Spacer(Modifier.height(24.dp))
