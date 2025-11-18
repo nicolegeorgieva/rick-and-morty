@@ -26,6 +26,7 @@ class CharactersViewModel @Inject constructor(
   private val errorMessageMapper: ErrorMessageMapper,
 ) : ComposeViewModel<CharactersState, CharactersEvent>() {
   private var charactersRes by mutableStateOf<Either<ErrorResponse, CharactersUi>?>(null)
+  private var characterRes by mutableStateOf<Either<ErrorResponse, CharacterUi>?>(null)
   private var loadingNewCharacters by mutableStateOf(false)
   private var charactersPage by mutableIntStateOf(1)
 
@@ -64,7 +65,12 @@ class CharactersViewModel @Inject constructor(
   }
 
   private fun handleCharacterClick(event: CharactersEvent.CharacterClick) {
-    // TODO
+    viewModelScope.launch {
+      characterRes = charactersRepository.fetchCharacter(event.id)
+        .map { character ->
+          character.toCharacterUi()
+        }
+    }
   }
 
   private fun handleLocationClick(event: CharactersEvent.LocationClick) {
@@ -82,51 +88,53 @@ class CharactersViewModel @Inject constructor(
               next = characters.info.next,
             ),
             results = if (prevCharsRes is Either.Right) {
-              (prevCharsRes.value.results + characters.results.mapCharactersResults())
+              (prevCharsRes.value.results + characters.results.map { character ->
+                character.toCharacterUi()
+              })
             } else {
-              characters.results.mapCharactersResults()
+              characters.results.map { character ->
+                character.toCharacterUi()
+              }
             }.toImmutableList()
           )
         }
     }
   }
 
-  private fun List<Character>.mapCharactersResults(): List<CharacterUi> {
-    return this.map { character ->
-      CharacterUi(
-        id = character.id,
-        name = character.name,
-        status = when (character.status) {
-          "Alive" -> CharacterStatusUi.Alive
-          "Dead" -> CharacterStatusUi.Dead
-          else -> CharacterStatusUi.Unknown
-        },
-        species = when (character.species) {
-          "Human" -> CharacterSpeciesUi.Human
-          "Animal" -> CharacterSpeciesUi.Animal
-          "Alien" -> CharacterSpeciesUi.Alien
-          else -> CharacterSpeciesUi.Other
-        },
-        type = character.type,
-        gender = when (character.gender) {
-          "Female" -> CharacterGenderUi.Female
-          "Male" -> CharacterGenderUi.Male
-          "Genderless" -> CharacterGenderUi.Genderless
-          else -> CharacterGenderUi.Unknown
-        },
-        origin = OriginUi(
-          name = character.origin.name,
-          url = character.origin.url,
-        ),
-        location = LocationUi(
-          name = character.location.name,
-          url = character.location.url,
-        ),
-        image = character.image,
-        episode = character.episode.toImmutableList(),
-        created = ""
-      )
-    }
+  private fun Character.toCharacterUi(): CharacterUi {
+    return CharacterUi(
+      id = this.id,
+      name = this.name,
+      status = when (this.status) {
+        "Alive" -> CharacterStatusUi.Alive
+        "Dead" -> CharacterStatusUi.Dead
+        else -> CharacterStatusUi.Unknown
+      },
+      species = when (this.species) {
+        "Human" -> CharacterSpeciesUi.Human
+        "Animal" -> CharacterSpeciesUi.Animal
+        "Alien" -> CharacterSpeciesUi.Alien
+        else -> CharacterSpeciesUi.Other
+      },
+      type = this.type,
+      gender = when (this.gender) {
+        "Female" -> CharacterGenderUi.Female
+        "Male" -> CharacterGenderUi.Male
+        "Genderless" -> CharacterGenderUi.Genderless
+        else -> CharacterGenderUi.Unknown
+      },
+      origin = OriginUi(
+        name = this.origin.name,
+        url = this.origin.url,
+      ),
+      location = LocationUi(
+        name = this.location.name,
+        url = this.location.url,
+      ),
+      image = this.image,
+      episode = this.episode.toImmutableList(),
+      created = ""
+    )
   }
 
   private fun handleLoadNewPage() {
