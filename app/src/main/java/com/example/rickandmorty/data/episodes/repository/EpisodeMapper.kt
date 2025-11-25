@@ -1,5 +1,6 @@
-package com.example.rickandmorty.data.episodes
+package com.example.rickandmorty.data.episodes.repository
 
+import com.example.rickandmorty.data.episodes.datasource.EpisodeDto
 import javax.inject.Inject
 
 class EpisodeMapper @Inject constructor() {

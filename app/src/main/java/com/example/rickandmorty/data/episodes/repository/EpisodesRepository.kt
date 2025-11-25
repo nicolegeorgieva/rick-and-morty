@@ -1,8 +1,9 @@
-package com.example.rickandmorty.data.episodes
+package com.example.rickandmorty.data.episodes.repository
 
 import arrow.core.Either
 import com.example.rickandmorty.data.ErrorMapper
 import com.example.rickandmorty.data.ErrorResponse
+import com.example.rickandmorty.data.episodes.datasource.EpisodesDataSource
 import javax.inject.Inject
 
 class EpisodesRepository @Inject constructor(

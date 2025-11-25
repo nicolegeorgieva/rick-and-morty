@@ -1,4 +1,4 @@
-package com.example.rickandmorty.data.episodes
+package com.example.rickandmorty.data.episodes.repository
 
 import kotlin.time.Instant
 

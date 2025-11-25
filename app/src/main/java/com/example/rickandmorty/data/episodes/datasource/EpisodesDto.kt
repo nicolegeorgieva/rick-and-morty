@@ -1,4 +1,4 @@
-package com.example.rickandmorty.data.episodes
+package com.example.rickandmorty.data.episodes.datasource
 
 import kotlinx.serialization.Contextual
 import kotlinx.serialization.Serializable
