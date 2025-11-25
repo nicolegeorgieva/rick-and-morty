@@ -8,6 +8,7 @@ import javax.inject.Inject
 class EpisodesRepository @Inject constructor(
   private val episodesDataSource: EpisodesDataSource,
   private val errorMapper: ErrorMapper,
+  private val episodeMapper: EpisodeMapper,
 ) {
   suspend fun fetchEpisodes(page: Int?): Either<ErrorResponse, Episodes> {
     return episodesDataSource.fetchEpisodes(page)
@@ -18,8 +19,18 @@ class EpisodesRepository @Inject constructor(
             pages = episodesDto.info.pages,
             next = episodesDto.info.next
           ),
-          results = TODO()
+          results = episodesDto.results.map { episodeDto ->
+            episodeMapper.map(episodeDto)
+          }
         )
+      }
+  }
+
+  suspend fun fetchEpisode(id: Int): Either<ErrorResponse, Episode> {
+    return episodesDataSource.fetchEpisode(id)
+      .mapLeft(errorMapper::mapError)
+      .map { episodeDto ->
+        episodeMapper.map(episodeDto)
       }
   }
 }
