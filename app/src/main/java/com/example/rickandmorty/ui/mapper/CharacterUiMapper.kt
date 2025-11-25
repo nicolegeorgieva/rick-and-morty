@@ -1,6 +1,6 @@
 package com.example.rickandmorty.ui.mapper
 
-import com.example.rickandmorty.data.characters.Character
+import com.example.rickandmorty.data.characters.repository.Character
 import com.example.rickandmorty.ui.characters.CharacterGenderUi
 import com.example.rickandmorty.ui.characters.CharacterSpeciesUi
 import com.example.rickandmorty.ui.characters.CharacterStatusUi

@@ -1,8 +1,9 @@
-package com.example.rickandmorty.data.characters
+package com.example.rickandmorty.data.characters.repository
 
 import arrow.core.Either
 import com.example.rickandmorty.data.ErrorMapper
 import com.example.rickandmorty.data.ErrorResponse
+import com.example.rickandmorty.data.characters.datasource.CharactersDataSource
 import javax.inject.Inject
 import kotlin.time.ExperimentalTime
 

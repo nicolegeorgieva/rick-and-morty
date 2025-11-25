@@ -9,7 +9,7 @@ import androidx.lifecycle.viewModelScope
 import arrow.core.Either
 import com.example.rickandmorty.common.ComposeViewModel
 import com.example.rickandmorty.data.ErrorResponse
-import com.example.rickandmorty.data.characters.CharactersRepository
+import com.example.rickandmorty.data.characters.repository.CharactersRepository
 import com.example.rickandmorty.navigation.Screen
 import com.example.rickandmorty.ui.characters.CharacterUi
 import com.example.rickandmorty.ui.mapper.CharacterUiMapper

@@ -1,5 +1,6 @@
-package com.example.rickandmorty.data.characters
+package com.example.rickandmorty.data.characters.repository
 
+import com.example.rickandmorty.data.characters.datasource.CharacterDto
 import javax.inject.Inject
 
 class CharacterMapper @Inject constructor() {
