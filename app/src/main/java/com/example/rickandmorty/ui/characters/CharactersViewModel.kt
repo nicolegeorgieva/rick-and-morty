@@ -73,6 +73,7 @@ class CharactersViewModel @Inject constructor(
 
   private fun handleLocationClick(event: CharactersEvent.LocationClick) {
     // TODO
+
   }
 
   private fun fetchCharacters() {
