@@ -9,6 +9,7 @@ import kotlin.time.ExperimentalTime
 class LocationsRepository @Inject constructor(
   private val locationsDataSource: LocationsDataSource,
   private val errorMapper: ErrorMapper,
+  private val locationMapper: LocationMapper,
 ) {
   @OptIn(ExperimentalTime::class)
   suspend fun fetchLocations(page: Int?): Either<ErrorResponse, Locations> {
@@ -21,14 +22,7 @@ class LocationsRepository @Inject constructor(
             next = locationsDto.info.next,
           ),
           results = locationsDto.results.map { locationDto ->
-            Location(
-              id = locationDto.id,
-              name = locationDto.name,
-              type = locationDto.type,
-              dimension = locationDto.dimension,
-              residents = locationDto.residents,
-              created = locationDto.created
-            )
+            locationMapper.map(locationDto)
           },
         )
       }
@@ -39,14 +33,7 @@ class LocationsRepository @Inject constructor(
     return locationsDataSource.fetchLocation(id)
       .mapLeft(errorMapper::mapError)
       .map { locationDto ->
-        Location(
-          id = locationDto.id,
-          name = locationDto.name,
-          type = locationDto.type,
-          dimension = locationDto.dimension,
-          residents = locationDto.residents,
-          created = locationDto.created
-        )
+        locationMapper.map(locationDto)
       }
   }
 }
