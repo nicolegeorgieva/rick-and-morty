@@ -1,5 +1,6 @@
-package com.example.rickandmorty.data.locations
+package com.example.rickandmorty.data.locations.repository
 
+import com.example.rickandmorty.data.locations.datasource.LocationDto
 import javax.inject.Inject
 
 class LocationMapper @Inject constructor() {

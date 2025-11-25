@@ -1,4 +1,4 @@
-package com.example.rickandmorty.data.locations
+package com.example.rickandmorty.data.locations.datasource
 
 import arrow.core.Either
 import io.ktor.client.HttpClient
@@ -11,7 +11,7 @@ class LocationsDataSource @Inject constructor(
   private val httpClient: HttpClient,
 ) {
   suspend fun fetchLocations(page: Int?): Either<Throwable, LocationsDto> {
-    return Either.catch {
+    return Either.Companion.catch {
       httpClient.get("location") {
         if (page != null) {
           parameter("page", page)
@@ -21,7 +21,7 @@ class LocationsDataSource @Inject constructor(
   }
 
   suspend fun fetchLocation(id: Int): Either<Throwable, LocationDto> {
-    return Either.catch {
+    return Either.Companion.catch {
       httpClient.get("location/$id").body<LocationDto>()
     }
   }
