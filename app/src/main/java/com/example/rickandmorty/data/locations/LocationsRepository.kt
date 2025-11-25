@@ -4,14 +4,12 @@ import arrow.core.Either
 import com.example.rickandmorty.data.ErrorMapper
 import com.example.rickandmorty.data.ErrorResponse
 import javax.inject.Inject
-import kotlin.time.ExperimentalTime
 
 class LocationsRepository @Inject constructor(
   private val locationsDataSource: LocationsDataSource,
   private val errorMapper: ErrorMapper,
   private val locationMapper: LocationMapper,
 ) {
-  @OptIn(ExperimentalTime::class)
   suspend fun fetchLocations(page: Int?): Either<ErrorResponse, Locations> {
     return locationsDataSource.fetchLocations(page)
       .mapLeft(errorMapper::mapError)
@@ -28,7 +26,6 @@ class LocationsRepository @Inject constructor(
       }
   }
 
-  @OptIn(ExperimentalTime::class)
   suspend fun fetchLocation(id: Int): Either<ErrorResponse, Location> {
     return locationsDataSource.fetchLocation(id)
       .mapLeft(errorMapper::mapError)
