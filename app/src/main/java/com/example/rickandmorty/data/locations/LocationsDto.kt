@@ -2,7 +2,6 @@ package com.example.rickandmorty.data.locations
 
 import kotlinx.serialization.Contextual
 import kotlinx.serialization.Serializable
-import kotlin.time.ExperimentalTime
 import kotlin.time.Instant
 
 @Serializable
@@ -17,7 +16,6 @@ data class LocationsInfoDto(
   val next: String?,
 )
 
-@OptIn(ExperimentalTime::class)
 @Serializable
 data class LocationDto(
   val id: Int,

@@ -1,6 +1,5 @@
 package com.example.rickandmorty.data.characters
 
-import kotlin.time.ExperimentalTime
 import kotlin.time.Instant
 
 data class Characters(
@@ -13,7 +12,6 @@ data class CharactersInfo(
   val next: String?
 )
 
-@OptIn(ExperimentalTime::class)
 data class Character(
   val id: Int,
   val name: String,

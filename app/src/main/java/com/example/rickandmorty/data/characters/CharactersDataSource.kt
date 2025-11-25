@@ -12,7 +12,7 @@ class CharactersDataSource @Inject constructor(
 ) {
   suspend fun fetchCharacters(page: Int?): Either<Throwable, CharactersDto> {
     return Either.catch {
-      httpClient.get(urlString = "character") {
+      httpClient.get("character") {
         if (page != null) {
           parameter("page", page)
         }
@@ -22,7 +22,7 @@ class CharactersDataSource @Inject constructor(
 
   suspend fun fetchCharacter(id: Int): Either<Throwable, CharacterDto> {
     return Either.catch {
-      httpClient.get(urlString = "character/$id").body<CharacterDto>()
+      httpClient.get("character/$id").body<CharacterDto>()
     }
   }
 }

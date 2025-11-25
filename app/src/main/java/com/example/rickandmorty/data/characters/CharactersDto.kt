@@ -2,7 +2,6 @@ package com.example.rickandmorty.data.characters
 
 import kotlinx.serialization.Contextual
 import kotlinx.serialization.Serializable
-import kotlin.time.ExperimentalTime
 import kotlin.time.Instant
 
 @Serializable
@@ -18,7 +17,6 @@ class CharactersInfoDto(
 )
 
 @Serializable
-@OptIn(ExperimentalTime::class)
 data class CharacterDto(
   val id: Int,
   val name: String,

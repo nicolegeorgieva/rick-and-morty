@@ -37,6 +37,11 @@ android {
   buildFeatures {
     compose = true
   }
+  kotlin {
+    compilerOptions {
+      optIn.add("kotlin.time.ExperimentalTime")
+    }
+  }
 }
 
 dependencies {
