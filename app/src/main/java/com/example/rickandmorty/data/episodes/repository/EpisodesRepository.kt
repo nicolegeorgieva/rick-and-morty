@@ -13,7 +13,7 @@ class EpisodesRepository @Inject constructor(
 ) {
   suspend fun fetchEpisodes(page: Int?): Either<ErrorResponse, Episodes> {
     return episodesDataSource.fetchEpisodes(page)
-      .mapLeft(errorMapper::mapError)
+      .mapLeft(errorMapper::map)
       .map { episodesDto ->
         Episodes(
           info = EpisodesInfo(
@@ -29,7 +29,7 @@ class EpisodesRepository @Inject constructor(
 
   suspend fun fetchEpisode(id: Int): Either<ErrorResponse, Episode> {
     return episodesDataSource.fetchEpisode(id)
-      .mapLeft(errorMapper::mapError)
+      .mapLeft(errorMapper::map)
       .map { episodeDto ->
         episodeMapper.map(episodeDto)
       }

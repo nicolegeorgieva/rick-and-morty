@@ -13,7 +13,7 @@ class LocationsRepository @Inject constructor(
 ) {
   suspend fun fetchLocations(page: Int?): Either<ErrorResponse, Locations> {
     return locationsDataSource.fetchLocations(page)
-      .mapLeft(errorMapper::mapError)
+      .mapLeft(errorMapper::map)
       .map { locationsDto ->
         Locations(
           info = LocationsInfo(
@@ -29,7 +29,7 @@ class LocationsRepository @Inject constructor(
 
   suspend fun fetchLocation(id: Int): Either<ErrorResponse, Location> {
     return locationsDataSource.fetchLocation(id)
-      .mapLeft(errorMapper::mapError)
+      .mapLeft(errorMapper::map)
       .map { locationDto ->
         locationMapper.map(locationDto)
       }

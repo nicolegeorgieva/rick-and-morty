@@ -4,7 +4,7 @@ import java.net.UnknownHostException
 import javax.inject.Inject
 
 class ErrorMapper @Inject constructor() {
-  fun mapError(error: Throwable): ErrorResponse {
+  fun map(error: Throwable): ErrorResponse {
     return when (error) {
       is UnknownHostException -> ErrorResponse.NoInternet
       else -> ErrorResponse.Other

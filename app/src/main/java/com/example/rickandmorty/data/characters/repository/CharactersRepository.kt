@@ -1,6 +1,7 @@
 package com.example.rickandmorty.data.characters.repository
 
 import arrow.core.Either
+import arrow.core.right
 import com.example.rickandmorty.data.ErrorMapper
 import com.example.rickandmorty.data.ErrorResponse
 import com.example.rickandmorty.data.characters.datasource.CharactersDataSource
@@ -17,7 +18,7 @@ class CharactersRepository @Inject constructor(
 
   suspend fun fetchCharacters(page: Int?): Either<ErrorResponse, Characters> {
     return charactersDataSource.fetchCharacters(page)
-      .mapLeft(errorMapper::mapError)
+      .mapLeft(errorMapper::map)
       .map { charactersDto ->
         Characters(
           info = CharactersInfo(
@@ -25,24 +26,22 @@ class CharactersRepository @Inject constructor(
             next = charactersDto.info.next
           ),
           results = charactersDto.results.map { characterDto ->
-            val characterDtoToDomain = characterMapper.map(characterDto)
-            characterMap[characterDto.id] = characterDtoToDomain
-            characterDtoToDomain
+            characterMapper.map(characterDto)
+              .also(::cacheCharacter)
           }
         )
       }
   }
 
   suspend fun fetchCharacter(id: Int): Either<ErrorResponse, Character> {
-    val character = characterMap[id]
-    return if (character != null) {
-      Either.Right(character)
-    } else {
-      charactersDataSource.fetchCharacter(id)
-        .mapLeft(errorMapper::mapError)
-        .map { characterDto ->
-          characterMapper.map(characterDto)
-        }
-    }
+    return characterMap[id]?.right()
+      ?: charactersDataSource.fetchCharacter(id)
+        .mapLeft(errorMapper::map)
+        .map(characterMapper::map)
+        .onRight(::cacheCharacter)
+  }
+
+  private fun cacheCharacter(character: Character) {
+    characterMap[character.id] = character
   }
 }
