@@ -5,12 +5,16 @@ import com.example.rickandmorty.data.ErrorMapper
 import com.example.rickandmorty.data.ErrorResponse
 import com.example.rickandmorty.data.characters.datasource.CharactersDataSource
 import javax.inject.Inject
+import javax.inject.Singleton
 
+@Singleton
 class CharactersRepository @Inject constructor(
   private val charactersDataSource: CharactersDataSource,
   private val errorMapper: ErrorMapper,
   private val characterMapper: CharacterMapper,
 ) {
+  private val characterMap = mutableMapOf<Int, Character>()
+
   suspend fun fetchCharacters(page: Int?): Either<ErrorResponse, Characters> {
     return charactersDataSource.fetchCharacters(page)
       .mapLeft(errorMapper::mapError)
@@ -21,17 +25,24 @@ class CharactersRepository @Inject constructor(
             next = charactersDto.info.next
           ),
           results = charactersDto.results.map { characterDto ->
-            characterMapper.map(characterDto)
+            val characterDtoToDomain = characterMapper.map(characterDto)
+            characterMap[characterDto.id] = characterDtoToDomain
+            characterDtoToDomain
           }
         )
       }
   }
 
   suspend fun fetchCharacter(id: Int): Either<ErrorResponse, Character> {
-    return charactersDataSource.fetchCharacter(id)
-      .mapLeft(errorMapper::mapError)
-      .map { characterDto ->
-        characterMapper.map(characterDto)
-      }
+    val character = characterMap[id]
+    return if (character != null) {
+      Either.Right(character)
+    } else {
+      charactersDataSource.fetchCharacter(id)
+        .mapLeft(errorMapper::mapError)
+        .map { characterDto ->
+          characterMapper.map(characterDto)
+        }
+    }
   }
 }
