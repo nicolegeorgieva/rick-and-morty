@@ -1,3 +1,5 @@
+An app showcasing Rick & Morty characters, locations and episodes.
+
 ## Tech Stack
 
 - **Languages:** `Kotlin`
