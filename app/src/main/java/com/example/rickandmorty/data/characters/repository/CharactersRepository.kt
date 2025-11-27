@@ -5,6 +5,8 @@ import arrow.core.right
 import com.example.rickandmorty.data.ErrorMapper
 import com.example.rickandmorty.data.ErrorResponse
 import com.example.rickandmorty.data.characters.datasource.CharactersDataSource
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.flow
 import javax.inject.Inject
 import javax.inject.Singleton
 
@@ -33,12 +35,17 @@ class CharactersRepository @Inject constructor(
       }
   }
 
-  suspend fun fetchCharacter(id: Int): Either<ErrorResponse, Character> {
-    return characterMap[id]?.right()
-      ?: charactersDataSource.fetchCharacter(id)
+  fun fetchCharacter(id: Int): Flow<Either<ErrorResponse, Character>> = flow {
+    characterMap[id]?.right()?.also {
+      emit(it)
+    }
+
+    emit(
+      charactersDataSource.fetchCharacter(id)
         .mapLeft(errorMapper::map)
         .map(characterMapper::map)
         .onRight(::cacheCharacter)
+    )
   }
 
   private fun cacheCharacter(character: Character) {

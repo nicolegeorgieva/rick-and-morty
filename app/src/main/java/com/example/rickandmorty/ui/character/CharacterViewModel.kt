@@ -1,18 +1,16 @@
 package com.example.rickandmorty.ui.character
 
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.setValue
 import androidx.lifecycle.viewModelScope
 import arrow.core.Either
 import com.example.rickandmorty.common.ComposeViewModel
 import com.example.rickandmorty.data.ErrorResponse
+import com.example.rickandmorty.data.characters.repository.Character
 import com.example.rickandmorty.data.characters.repository.CharactersRepository
 import com.example.rickandmorty.navigation.Navigator
 import com.example.rickandmorty.navigation.Screen
-import com.example.rickandmorty.ui.characters.CharacterUi
 import com.example.rickandmorty.ui.mapper.CharacterUiMapper
 import com.example.rickandmorty.utils.ErrorMessageMapper
 import dagger.assisted.Assisted
@@ -30,21 +28,23 @@ class CharacterViewModel @AssistedInject constructor(
   private val navigator: Navigator,
   private val errorMessageMapper: ErrorMessageMapper,
 ) : ComposeViewModel<CharacterState, CharacterEvent>() {
-  private var characterRes by mutableStateOf<Either<ErrorResponse, CharacterUi>?>(null)
+
+  private val characterFlow = charactersRepository.fetchCharacter(screen.id)
 
   @Composable
   override fun uiState(): CharacterState {
-    LaunchedEffect(Unit) {
-      fetchCharacterInfo(id = screen.id)
-    }
+    val characterRes by characterFlow.collectAsState(initial = null)
 
-    return when (val character = characterRes) {
+    return when (
+      val character = characterRes) {
       null -> CharacterState.Loading
       is Either.Left<ErrorResponse> -> CharacterState.Error(
         message = errorMessageMapper.transformErrorToMessage(character.value)
       )
 
-      is Either.Right<CharacterUi> -> CharacterState.Success(character = character.value)
+      is Either.Right<Character> -> CharacterState.Success(
+        character = characterUiMapper.map(character.value)
+      )
     }
   }
 
@@ -57,14 +57,6 @@ class CharacterViewModel @AssistedInject constructor(
   private fun handleBackClick() {
     viewModelScope.launch {
       navigator.back()
-    }
-  }
-
-  private fun fetchCharacterInfo(id: Int) {
-    viewModelScope.launch {
-      characterRes = charactersRepository.fetchCharacter(id).map { character ->
-        characterUiMapper.map(character)
-      }
     }
   }
 
