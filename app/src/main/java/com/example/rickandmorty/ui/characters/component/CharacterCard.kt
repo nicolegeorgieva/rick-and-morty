@@ -36,7 +36,6 @@ fun CharacterCard(
   character: CharacterUi,
   modifier: Modifier = Modifier,
   onCharacterClick: (Int) -> Unit,
-  onLocationClick: (String) -> Unit,
 ) {
   Card(
     modifier = modifier,
@@ -46,11 +45,7 @@ fun CharacterCard(
   ) {
     Row(verticalAlignment = Alignment.CenterVertically) {
       CharacterImage(url = character.image)
-      Spacer(Modifier.width(16.dp))
-      CharacterInfo(
-        character = character,
-        onLocationClick = onLocationClick
-      )
+      CharacterInfo(character = character)
     }
   }
 }
@@ -74,12 +69,11 @@ private fun RowScope.CharacterImage(
 private fun RowScope.CharacterInfo(
   character: CharacterUi,
   modifier: Modifier = Modifier,
-  onLocationClick: (String) -> Unit,
 ) {
   Column(
     modifier = modifier
       .weight(2f)
-      .padding(vertical = 12.dp)
+      .padding(16.dp)
   ) {
     CharacterName(text = character.name)
     Spacer(Modifier.height(4.dp))
@@ -91,9 +85,6 @@ private fun RowScope.CharacterInfo(
     CharacterDetail(
       title = stringResource(R.string.characters_last_known_location),
       value = character.location.name,
-      onValueClick = {
-        onLocationClick(character.location.url)
-      }
     )
     Spacer(Modifier.height(24.dp))
     CharacterDetail(

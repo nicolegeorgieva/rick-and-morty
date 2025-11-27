@@ -34,7 +34,6 @@ fun CharactersScreen() {
   )
 }
 
-
 @SuppressLint("FrequentlyChangingValue")
 @Composable
 fun CharactersUi(
@@ -94,9 +93,6 @@ fun CharactersUi(
               onCharacterClick = { id ->
                 onEvent(CharactersEvent.CharacterClick(id))
               },
-              onLocationClick = { locationUrl ->
-                onEvent(CharactersEvent.LocationClick(locationUrl))
-              }
             )
             Spacer(Modifier.height(24.dp))
           }
