@@ -70,37 +70,37 @@ class CharactersViewModel @Inject constructor(
     }
   }
 
-  private fun fetchCharacters() {
-    viewModelScope.launch {
-      val prevCharsRes = charactersRes
-      charactersRes = charactersRepository.fetchCharacters(page = charactersPage)
-        .map { characters ->
-          CharactersUi(
-            info = CharactersInfoUi(
-              pages = characters.info.pages,
-              next = characters.info.next,
-            ),
-            results = if (prevCharsRes is Either.Right) {
-              (prevCharsRes.value.results + characters.results.map { character ->
-                characterUiMapper.map(character)
-              })
-            } else {
-              characters.results.map { character ->
-                characterUiMapper.map(character)
-              }
-            }.toImmutableList()
-          )
-        }
-    }
+  private suspend fun fetchCharacters() {
+    val prevCharsRes = charactersRes
+    charactersRes = charactersRepository.fetchCharacters(page = charactersPage)
+      .map { characters ->
+        CharactersUi(
+          info = CharactersInfoUi(
+            pages = characters.info.pages,
+            next = characters.info.next,
+          ),
+          results = if (prevCharsRes is Either.Right) {
+            (prevCharsRes.value.results + characters.results.map { character ->
+              characterUiMapper.map(character)
+            })
+          } else {
+            characters.results.map { character ->
+              characterUiMapper.map(character)
+            }
+          }.toImmutableList()
+        )
+      }
   }
 
   private fun handleLoadNewPage() {
-    charactersPage += 1
-    val charsRes = charactersRes
-    if (charsRes is Either.Right<CharactersUi> && charactersPage <= charsRes.value.info.pages) {
-      loadingNewCharacters = true
-      fetchCharacters()
-      loadingNewCharacters = false
+    viewModelScope.launch {
+      charactersPage += 1
+      val charsRes = charactersRes
+      if (charsRes is Either.Right<CharactersUi> && charactersPage <= charsRes.value.info.pages) {
+        loadingNewCharacters = true
+        fetchCharacters()
+        loadingNewCharacters = false
+      }
     }
   }
 }
