@@ -75,7 +75,7 @@ fun CharactersUi(
     LazyColumn(
       modifier = Modifier
         .padding(padding)
-        .padding(horizontal = 12.dp),
+        .padding(horizontal = 16.dp),
       state = listState,
     ) {
       when (uiState) {

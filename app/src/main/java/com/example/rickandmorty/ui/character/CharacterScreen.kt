@@ -1,7 +1,7 @@
 package com.example.rickandmorty.ui.character
 
-import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -43,16 +43,18 @@ fun CharacterUi(
       )
     }
   ) { padding ->
-    Column(
+    LazyColumn(
       modifier = Modifier
         .padding(padding)
         .padding(horizontal = 16.dp),
     ) {
       when (uiState) {
-        is CharacterState.Error -> Error(message = uiState.message)
-        CharacterState.Loading -> Loading()
+        is CharacterState.Error -> item(key = "error") { Error(message = uiState.message) }
+        CharacterState.Loading -> item(key = "loading") { Loading() }
         is CharacterState.Success -> {
-          Text(uiState.character.name)
+          item(key = "character-info") {
+            Text(uiState.character.name)
+          }
         }
       }
     }
